@@ -1,0 +1,33 @@
+dist: focal
+language: python
+python:
+- '3.8'
+services:
+- docker
+env:
+  global:
+  - ROLE_NAME: unbound
+  - secure: BvRa4IMjVwbkdcYFNrgVx45y0GUNVglIkHHw4/nDA3tR8TXyBXtI9GMvTD5VA2BnUGzzhPOuMxI+hNwedz6kOzlsD3wJ9ieK1t+7An0xvjgTFSRlgSk83+1ugehuza/x7fmkvCckDITBYXEulMLF4JlEUWOGb2pw8o9mHZhAffmIwug+Le9BahPazL4wvdDS4M8YnUoK8o/7kwwNvotLJC1ThRPgvs7PFmQ+YNAURx7ol3lcFWGiFgUv6VNyuT6hDqqVnrKbZKcRyghlol2tX/cJssz+fUeTn3IdMXaFiPF+GRS9EmDRQcekRPLgFFSr/gVN4p53IoZCdXH7rOMi8e5ZR6+JXpe1CvnWbfj4IHu2RWP4kRJck5AwQHxkcPTyBh4QuFqf8eVBlieiMjr3fEA639hsbfXK6harIZ7+30YrHEh9vX9+9P2zqMDPII65qDnsK5kOSM/tLbTlfEkKK5ddtrnJ1iifOUvCv0yIFDowps6Kgacr9pHQcjYxgkoixWM1sMSwaDM1cCripGPsaBmLKP08qm9ZgO+AbYcDLi85cWZai4d68TI4nfSbuDHjFq1BU+d1C1v+uVjYS6q9HaWiuZU+0W8IdyRlArUTSdEVh79Hy40NssuMa2j6prSs7l/sM6tUsLIDrh6+D//xFRrydHT6PDCO9bCVJRYfbVk=
+  - secure: lzDC/J6TSqzLvrQxIfJF/g31Acx5+OKNZON8hUIqe8Pq8r/FmqVLefBj1FqkWDTjpNze0ogn6nxEu/n3Z1P2vkn3tgEZWcab868l4kWIsu26A3NVZn4VkAinQaFEiRERoNEj+/+guIE5pDYr61VKeqDlzUO89zJvdJ3mLgdoa5ypkPX9MSvOfojzmwrEE1OyeQHbLfjh/LPH6D5z8QWmdWGECVurmOWSYsx9OaimzUGbhxa5M7hpLGDn3AaidLwlUJAJv6AQaojARwwsKoOJp4Mygo2VCDc9PxLcuxvkas0vC6SGGhdfAGYHc//nLrfws9hyog0RtNwCTzVf7jbpmTVbVs9/WnkWCkKHrfe7oO5MhPVU+v6JH6cggPmIVnmueOVEdTYu5e4jn89Yt5FRfh8rLx8J0PFKk3E0ybY8eCHMkkjYmrLCAM4XgJBP4kvtvTR9iSBC9HPM4xWrAHYvb2xCzlzPxZ/KnvdYRcvbGtJ3ge1rJHn89E1KcaLrhoRggwv8mgm8SOMPv6aFPZmgHDKp4722cFI1qNxCxEsrz2sd/hwvGasEXkukpuPa+q9/YcUys59qsk0aYWBPbXk5Vt+BkJFxoutAOxOeoK1XMTVRiNShbm/VTIgQwuUK1yh65PVTO8tcHk2xxiOg+h3qjX4kGFnVWvGUuCboWw5YN9g=
+  jobs:
+  - MOLECULE_DISTRO: centos8
+  - MOLECULE_DISTRO: centos7
+  - MOLECULE_DISTRO: fedora32
+  - MOLECULE_DISTRO: fedora31
+  - MOLECULE_DISTRO: ubuntu2004
+  - MOLECULE_DISTRO: ubuntu1804
+cache:
+- pip
+install:
+- pip install --upgrade pip
+- pip install molecule-docker yamllint ansible-lint
+before_script:
+- echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+#- cd ../
+#- GALAXY_ROLE_NAME=$(echo "${ROLE_NAME}" | tr '-' '_')
+#- mv ansible-role-$ROLE_NAME hybridadmin.$GALAXY_ROLE_NAME
+#- cd hybridadmin.$GALAXY_ROLE_NAME
+script:
+- molecule test
+notifications:
+  webhooks: https://galaxy.ansible.com/api/v1/notifications/
