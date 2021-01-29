@@ -30,9 +30,9 @@ Including an example of how to use your role (for instance, with variables passe
 License
 -------
 
-BSD
+[Apache License 2.0](./LICENSE)
 
 Author Information
 ------------------
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+Created by [hybridadmin](https://github.com/hybridadmin).
